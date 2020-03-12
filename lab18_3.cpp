@@ -9,6 +9,10 @@ using namespace std;
 
 struct student{
 	//Define struct student with four member (name ,id , gender, gpa);
+	string name;
+	int id;
+	string gender;
+	float gpa;
 };
 
 struct course{
@@ -18,7 +22,7 @@ struct course{
 	vector<student *> student_list;
 };
 
-student * findstudent(vector<student> allstudents,int key){ //Correct this line
+student * findstudent(vector<student> &allstudents,int key){ //Correct this line
 	for(unsigned int i = 0; i < allstudents.size(); i++){
 		if(allstudents[i].id  == key) return &allstudents[i];
 	}
@@ -56,8 +60,16 @@ int main(){
 	
 	while(getline(student_file,textline)){
 		student s; 
-	
+		char name1[100];
+		int id1;
+		char gender1;
+		float gpa1;
 		//Assign value to the members of struct s;
+		sscanf(textline.c_str(),"%[^,],%d,%c,%f",name1,&id1,&gender1,&gpa1);
+		s.name = name1;
+		s.id = id1;
+		s.gender = gender1;
+		s.gpa = gpa1; 
 	
 		allstudents.push_back(s); 		
 	}
@@ -77,6 +89,8 @@ int main(){
 				state = 3;
 			}else{
 				//Append lecture_list;
+				allcourses[allcourses.size()-1].lecture_list.push_back(textline.c_str());
+
 			}			
 		}else{
 			if(textline == "---------------------------------------"){
@@ -84,6 +98,7 @@ int main(){
 			}else{
 				student *p = findstudent(allstudents,atof(textline.c_str()));
 				//Append student_list;
+				allcourses[allcourses.size()-1].student_list.push_back(p);
 			}
 		}
 	}
